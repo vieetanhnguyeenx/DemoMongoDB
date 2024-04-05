@@ -85,7 +85,7 @@ cmake-build-*/
 
 # IntelliJ
 out/
-
+docker-compose.yaml
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
