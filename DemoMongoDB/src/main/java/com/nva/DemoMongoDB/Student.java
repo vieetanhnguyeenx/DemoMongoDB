@@ -2,10 +2,13 @@ package com.nva.DemoMongoDB;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -22,11 +25,13 @@ public class Student {
     String id;
     String firstName;
     String lastName;
+    @Indexed(unique = true)
     String email;
     Gender gender;
     Address address;
     List<String> favouriteSubject;
     BigDecimal totalSpentInBooks;
-    ZonedDateTime created;
+    @CreatedDate
+    LocalDateTime created = LocalDateTime.now();
 
 }
