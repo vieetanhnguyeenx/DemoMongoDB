@@ -4,6 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -19,10 +22,12 @@ public class DemoMongoDbApplication {
 	@Bean
 	CommandLineRunner runner(StudentRepository repository) {
 		return args -> {
+			String email = "123456@gmail.com";
+
 			Student student = Student.builder()
 					.firstName("Doi1")
 					.lastName("Den1")
-					.email("12345@gmail.com")
+					.email(email)
 					.gender(Gender.MALE)
 					.address(
 							Address.builder()
@@ -33,10 +38,13 @@ public class DemoMongoDbApplication {
 					)
 					.favouriteSubject(List.of("PRN111", "MAE", "PMG"))
 					.build();
+			repository.findStudentByEmail(email).ifPresentOrElse(s-> {
+				System.out.println(s + " already exits");
+			}, () -> {
+				System.out.println("Inserting student " + student);
+				repository.save(student);
+			});
 
-
-
-			repository.save(student);
 		};
 	}
 }
